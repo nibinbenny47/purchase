@@ -1,0 +1,9 @@
+F:\ASP.NETCourse\3TierPurchaseWork\BusinessAccessLayer\bin\Debug\BusinessAccessLayer.dll
+F:\ASP.NETCourse\3TierPurchaseWork\BusinessAccessLayer\bin\Debug\BusinessAccessLayer.pdb
+F:\ASP.NETCourse\3TierPurchaseWork\BusinessAccessLayer\bin\Debug\DataAccessLayer.dll
+F:\ASP.NETCourse\3TierPurchaseWork\BusinessAccessLayer\bin\Debug\DataAccessLayer.pdb
+F:\ASP.NETCourse\3TierPurchaseWork\BusinessAccessLayer\obj\Debug\BusinessAccessLayer.csprojAssemblyReference.cache
+F:\ASP.NETCourse\3TierPurchaseWork\BusinessAccessLayer\obj\Debug\BusinessAccessLayer.csproj.CoreCompileInputs.cache
+F:\ASP.NETCourse\3TierPurchaseWork\BusinessAccessLayer\obj\Debug\BusinessAccessLayer.csproj.CopyComplete
+F:\ASP.NETCourse\3TierPurchaseWork\BusinessAccessLayer\obj\Debug\BusinessAccessLayer.dll
+F:\ASP.NETCourse\3TierPurchaseWork\BusinessAccessLayer\obj\Debug\BusinessAccessLayer.pdb
