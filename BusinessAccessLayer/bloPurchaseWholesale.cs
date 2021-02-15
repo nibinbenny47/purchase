@@ -17,6 +17,10 @@ namespace BusinessAccessLayer
         {
             return obj.fillSupplier();
         }
+        /* item dropdown filling */
+        public DataTable fillItem(int supplier_id)
+        {
+            return obj.fillItem(supplier_id);
+        }
     }
-
 }

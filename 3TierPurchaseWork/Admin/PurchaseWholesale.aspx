@@ -5,7 +5,7 @@
       Invoice:
             <asp:TextBox ID="txtInvoice" runat="server"></asp:TextBox><br />
             Supplier:
-            <asp:DropDownList runat="server" ID="ddlSupplier" AutoPostBack="true" >
+            <asp:DropDownList runat="server" ID="ddlSupplier" AutoPostBack="true"  OnSelectedIndexChanged="ddlSupplier_SelectedIndexChanged" >
                 
             </asp:DropDownList><br />
             Date:
