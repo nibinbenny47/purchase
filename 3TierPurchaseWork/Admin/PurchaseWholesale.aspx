@@ -18,7 +18,8 @@
             <asp:TextBox ID="txtQuantity" runat="server"></asp:TextBox><br />
             Rate:
             <asp:TextBox ID="txtRate" runat="server"></asp:TextBox><br />
-            <asp:Button  runat="server" ID="btnAdd" Text="Add" />
+            <asp:Button  runat="server" ID="btnAdd" Text="Add" OnClick="btnAdd_Click1" />
+            <asp:Button runat="server" ID="btnClear" Text="Clear" OnClick="btnClear_Click" />
             <asp:GridView runat="server" ID="grdPurchase" ShowFooter="true" >
             
             </asp:GridView><br />
