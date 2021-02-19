@@ -84,8 +84,31 @@ namespace _3TierPurchaseWork.Admin
             temp = temp + total;
             AddNewRecordToGrid();
         }
-        /*clear all valuesin temporary grid and grandtotal*/
-        protected void btnClear_Click(object sender, EventArgs e)
+        /* insert values to purchase head,purchase details and update stock */
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            /*insert into purchasehead table*/
+            obj.insertPurchaseHead(txtDate.Text, Convert.ToInt32(txtInvoice.Text), Convert.ToInt32(txtGrandTotal.Text), Convert.ToInt32(ddlSupplier.SelectedValue));
+
+            DataTable dt1 = obj.selectphID();
+            Session["phid"] = dt1.Rows[0]["headID"];
+
+            DataTable dt2 = Session["purchase"] as DataTable;
+            foreach (DataRow dr in dt2.Rows)
+            {
+                /* insert values to purchase details table*/
+                obj.insertPurchaseDetails(Convert.ToInt32( Session["phid"]), Convert.ToInt32(ddlItem.SelectedValue), Convert.ToInt32(txtQuantity.Text), txtRate.Text);
+            }
+           
+            txtGrandTotal.Text = "";
+
+
+        }
+        
+      
+
+            /*clear all valuesin temporary grid and grandtotal*/
+            protected void btnClear_Click(object sender, EventArgs e)
         {
             AddDefaultFirstRecord();
             txtGrandTotal.Text = "";

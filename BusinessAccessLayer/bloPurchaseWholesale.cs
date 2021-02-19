@@ -22,5 +22,20 @@ namespace BusinessAccessLayer
         {
             return obj.fillItem(supplier_id);
         }
+        /* insert values to purchase head table*/
+        public void insertPurchaseHead(string ph_date, int ph_invoice, int ph_grandtotal, int supplier_id)
+        {
+            obj.insertPurchaseHead(ph_date, ph_invoice, ph_grandtotal, supplier_id);
+        }
+        /* insert values to purchase details table*/
+        public void insertPurchaseDetails(int ph_id, int item_id, int pd_quantity, string pd_rate)
+        {
+            obj.insertPurchaseDetails(ph_id, item_id, pd_quantity, pd_rate);
+        }
+        /*select ph_id to insert into purchaseDetails table*/
+        public DataTable selectphID()
+        {
+            return obj.selectphID();
+        }
     }
 }

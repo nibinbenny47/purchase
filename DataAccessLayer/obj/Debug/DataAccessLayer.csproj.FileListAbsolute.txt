@@ -1,6 +1,5 @@
 F:\ASP.NETCourse\3TierPurchaseWork\DataAccessLayer\bin\Debug\DataAccessLayer.dll
 F:\ASP.NETCourse\3TierPurchaseWork\DataAccessLayer\bin\Debug\DataAccessLayer.pdb
-F:\ASP.NETCourse\3TierPurchaseWork\DataAccessLayer\obj\Debug\DataAccessLayer.csprojAssemblyReference.cache
 F:\ASP.NETCourse\3TierPurchaseWork\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CoreCompileInputs.cache
 F:\ASP.NETCourse\3TierPurchaseWork\DataAccessLayer\obj\Debug\DataAccessLayer.dll
 F:\ASP.NETCourse\3TierPurchaseWork\DataAccessLayer\obj\Debug\DataAccessLayer.pdb
