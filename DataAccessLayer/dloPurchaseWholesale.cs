@@ -61,7 +61,7 @@ namespace DataAccessLayer
             cmd.ExecuteNonQuery();
         }
         /* insert values to purchase details table*/
-        public void insertPurchaseDetails(int ph_id, int item_id, int pd_quantity, string pd_rate)
+        public void insertPurchaseDetails(int ph_id, int item_id, int pd_quantity, int  pd_rate)
         {
             connection();
 

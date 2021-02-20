@@ -59,21 +59,25 @@ namespace _3TierPurchaseWork.Admin
         private void AddDefaultFirstRecord()
         {
             //creating datatable
-            DataTable dt = new DataTable();
-            DataRow dr;
-            dt.TableName = "purchase";
-            dt.Columns.Add(new DataColumn("Item", typeof(string)));
-            dt.Columns.Add(new DataColumn("Quantity", typeof(string)));
-            dt.Columns.Add(new DataColumn("Rate", typeof(string)));
-            dt.Columns.Add(new DataColumn("Total", typeof(string)));
-            dr = dt.NewRow();
-            dt.Rows.Add(dr);
-            //saving datatable into viewstate
-            ViewState["purchase"] = dt;
-            Session["purchase"] = dt;
-            //bind gridview
-            grdPurchase.DataSource = dt;
-            grdPurchase.DataBind();
+            if (!IsPostBack)
+            {
+                DataTable dt = new DataTable();
+                DataRow dr;
+                dt.TableName = "purchase";
+                dt.Columns.Add(new DataColumn("Item", typeof(string)));
+                dt.Columns.Add(new DataColumn("Quantity", typeof(string)));
+                dt.Columns.Add(new DataColumn("Rate", typeof(string)));
+                dt.Columns.Add(new DataColumn("Total", typeof(string)));
+                dr = dt.NewRow();
+                dt.Rows.Add(dr);
+                //saving datatable into viewstate
+                ViewState["purchase"] = dt;
+                Session["purchase"] = dt;
+                //bind gridview
+                grdPurchase.DataSource = dt;
+                grdPurchase.DataBind();
+            }
+           
         }
         /* on clicking add buttton data saved to temporary grid or datatable */
         protected void btnAdd_Click1(object sender, EventArgs e)
@@ -97,7 +101,7 @@ namespace _3TierPurchaseWork.Admin
             foreach (DataRow dr in dt2.Rows)
             {
                 /* insert values to purchase details table*/
-                obj.insertPurchaseDetails(Convert.ToInt32( Session["phid"]), Convert.ToInt32(ddlItem.SelectedValue), Convert.ToInt32(txtQuantity.Text), txtRate.Text);
+                obj.insertPurchaseDetails(Convert.ToInt32( Session["phid"]), Convert.ToInt32(dr["Item"]), Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Rate"]));
             }
            
             txtGrandTotal.Text = "";

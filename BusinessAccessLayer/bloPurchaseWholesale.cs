@@ -28,7 +28,7 @@ namespace BusinessAccessLayer
             obj.insertPurchaseHead(ph_date, ph_invoice, ph_grandtotal, supplier_id);
         }
         /* insert values to purchase details table*/
-        public void insertPurchaseDetails(int ph_id, int item_id, int pd_quantity, string pd_rate)
+        public void insertPurchaseDetails(int ph_id, int item_id, int pd_quantity, int  pd_rate)
         {
             obj.insertPurchaseDetails(ph_id, item_id, pd_quantity, pd_rate);
         }
