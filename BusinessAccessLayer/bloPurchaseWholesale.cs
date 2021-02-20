@@ -28,7 +28,7 @@ namespace BusinessAccessLayer
             obj.insertPurchaseHead(ph_date, ph_invoice, ph_grandtotal, supplier_id);
         }
         /* insert values to purchase details table*/
-        public void insertPurchaseDetails(int ph_id, int item_id, int pd_quantity, int  pd_rate)
+        public void insertPurchaseDetails(int ph_id, int item_id, int pd_quantity, int pd_rate)
         {
             obj.insertPurchaseDetails(ph_id, item_id, pd_quantity, pd_rate);
         }
@@ -36,6 +36,21 @@ namespace BusinessAccessLayer
         public DataTable selectphID()
         {
             return obj.selectphID();
+        }
+        /*select item id from the stock table*/
+        public DataTable selectItemFromStock()
+        {
+            return obj.selectItemFromStock();
+        }
+        /*update stock table*/
+        public void stockUpdate(int newQnty, int item_id)
+        {
+            obj.stockUpdate(newQnty, item_id);
+        }
+        /*insert stock table*/
+        public void insertStock(int newQnty, int item_id)
+        {
+            obj.insertStock(newQnty, item_id);
         }
     }
 }

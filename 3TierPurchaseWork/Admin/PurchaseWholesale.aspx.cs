@@ -102,9 +102,26 @@ namespace _3TierPurchaseWork.Admin
             {
                 /* insert values to purchase details table*/
                 obj.insertPurchaseDetails(Convert.ToInt32( Session["phid"]), Convert.ToInt32(dr["Item"]), Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Rate"]));
+                DataTable dt = obj.selectItemFromStock();
+                if(dt.Rows.Count > 0)
+                {
+                    lblAvailQnty.Text = dt2.Rows[0]["stock_quantity"].ToString();
+                    lblGivenQnty.Text = Convert.ToInt32(dr["Quantity"]).ToString();
+                    int availQnty = Convert.ToInt32(lblAvailQnty.Text);
+                    int givenQnty = Convert.ToInt32(lblGivenQnty.Text);
+                    int newQnty = Convert.ToInt32(availQnty + givenQnty);
+                    obj.stockUpdate(newQnty, Convert.ToInt32(dr["Item"]));
+
+                }
+                else
+                { 
+                    /*insert stock table*/
+                    obj.insertStock(Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Item"]));
+
+                }
             }
            
-            txtGrandTotal.Text = "";
+           
 
 
         }

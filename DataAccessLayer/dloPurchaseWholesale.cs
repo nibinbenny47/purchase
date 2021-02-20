@@ -88,5 +88,40 @@ namespace DataAccessLayer
             adp.Fill(dt);
             return dt;
         }
+        /*select item id from the stock table*/
+        public DataTable selectItemFromStock()
+        {
+            connection();
+
+            cmd = new SqlCommand("sp_PurchaseWholesale", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@status", 6);
+            SqlDataAdapter adp = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adp.Fill(dt);
+            return dt;
+        }
+        /*update stock table*/
+        public void stockUpdate(int newQnty,int item_id)
+        {
+            cmd = new SqlCommand("sp_PurchaseWholesale", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@status", 7);
+            SqlDataAdapter adp = new SqlDataAdapter(cmd);
+            cmd.Parameters.AddWithValue("@newQnty", newQnty);
+            cmd.Parameters.AddWithValue("@item_id", item_id);
+            cmd.ExecuteNonQuery();
+        }
+        /*insert stock table*/
+        public void insertStock(int newQnty, int item_id)
+        {
+            cmd = new SqlCommand("sp_PurchaseWholesale", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@status", 8);
+            SqlDataAdapter adp = new SqlDataAdapter(cmd);
+            cmd.Parameters.AddWithValue("@newQnty", newQnty);
+            cmd.Parameters.AddWithValue("@item_id", item_id);
+            cmd.ExecuteNonQuery();
+        }
     }
 }
