@@ -20,7 +20,7 @@
             <asp:TextBox ID="txtRate" runat="server"></asp:TextBox><br />
             <asp:Button  runat="server" ID="btnAdd" Text="Add" OnClick="btnAdd_Click" />
            
-            <asp:GridView runat="server" ID="grdPurchase" OnRowDataBound="grdPurchase_RowDataBound" >
+            <asp:GridView runat="server" ID="grdPurchase"  >
                 <Columns>
                    
 
