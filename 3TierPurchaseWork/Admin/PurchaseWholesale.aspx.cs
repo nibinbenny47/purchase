@@ -13,15 +13,32 @@ namespace _3TierPurchaseWork.Admin
     public partial class WebForm3 : System.Web.UI.Page
     {
         public bloPurchaseWholesale obj = new bloPurchaseWholesale();
-        public static int qnty, rate, total;
-        public static int temp = 0;
+        double total;
+        //public static int qnty, rate, total;
+        //public static int temp = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 fillSupplierdropDown();
-                AddDefaultFirstRecord();
-                AddNewRecordToGrid();
+                DataTable dtpurchase = new DataTable();
+
+                DataColumn clm = new DataColumn("Item", typeof(string));
+                dtpurchase.Columns.Add(clm);
+                clm = new DataColumn("Quantity", typeof(string));
+                dtpurchase.Columns.Add(clm);
+                clm = new DataColumn("Rate", typeof(Int32));
+                dtpurchase.Columns.Add(clm);
+                clm = new DataColumn("Total", typeof(string));
+
+                dtpurchase.Columns.Add(clm);
+                dtpurchase.AcceptChanges();
+
+                //Session["cart_id"] = 0;
+                Session["purchase"] = dtpurchase;
+                fillGrid();
+                //fillDatatable();
+
 
 
 
@@ -43,10 +60,9 @@ namespace _3TierPurchaseWork.Admin
         {
             fillItem();
         }
-        /* fill item in dropdown*/
         protected void fillItem()
         {
-            DataTable dt = obj.fillItem(Convert.ToInt32( ddlSupplier.SelectedValue));
+            DataTable dt = obj.fillItem(Convert.ToInt32(ddlSupplier.SelectedValue));
             ddlItem.DataSource = dt;
 
 
@@ -55,133 +71,195 @@ namespace _3TierPurchaseWork.Admin
             ddlItem.DataBind();
             ddlItem.Items.Insert(0, "--select--");
         }
-        /*creating temporary datatable*/
-        private void AddDefaultFirstRecord()
+
+
+
+        protected void btnAdd_Click(object sender, EventArgs e)
         {
-            //creating datatable
-            if (!IsPostBack)
+            DataTable dt = new DataTable();
+            dt = (DataTable)Session["purchase"];
+            DataRow row = dt.NewRow();
+
+            row["Item"] = ddlItem.SelectedItem.Text;
+            row["Quantity"] = txtQuantity.Text;
+            row["Rate"] = txtRate.Text;
+            row["Total"] = Convert.ToInt32(txtQuantity.Text) * Convert.ToInt32(txtRate.Text);
+
+            dt.Rows.Add(row);
+            dt.AcceptChanges();
+            Session["purchase"] = dt;
+
+            fillGrid();
+        }
+        protected void fillGrid()
+        {
+            DataTable dt = (DataTable)Session["purchase"];
+            grdPurchase.DataSource = dt;
+            grdPurchase.DataBind();
+        }
+
+        protected void grdPurchase_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                DataTable dt = new DataTable();
-                DataRow dr;
-                dt.TableName = "purchase";
-                dt.Columns.Add(new DataColumn("Item", typeof(string)));
-                dt.Columns.Add(new DataColumn("Quantity", typeof(string)));
-                dt.Columns.Add(new DataColumn("Rate", typeof(string)));
-                dt.Columns.Add(new DataColumn("Total", typeof(string)));
-                dr = dt.NewRow();
-                dt.Rows.Add(dr);
-                //saving datatable into viewstate
-                ViewState["purchase"] = dt;
-                Session["purchase"] = dt;
-                //bind gridview
-                grdPurchase.DataSource = dt;
-                grdPurchase.DataBind();
+                Label lb = (Label)e.Row.FindControl("lblTotal");
+                total += Convert.ToInt32(lb.Text);
+                txtGrandTotal.Text = total.ToString();
+                //txtGrandTotal.Text = "Total Amount Rs:" + total.ToString() + "/-";
+                Session["amount"] = total;
             }
-           
         }
-        /* on clicking add buttton data saved to temporary grid or datatable */
-        protected void btnAdd_Click1(object sender, EventArgs e)
-        {
-            qnty = Convert.ToInt32(txtQuantity.Text);
-            rate = Convert.ToInt32(txtRate.Text);
-            total = qnty * rate;
-            temp = temp + total;
-            AddNewRecordToGrid();
-        }
-        /* insert values to purchase head,purchase details and update stock */
+
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
+
             /*insert into purchasehead table*/
-            obj.insertPurchaseHead(txtDate.Text, Convert.ToInt32(txtInvoice.Text), Convert.ToInt32(txtGrandTotal.Text), Convert.ToInt32(ddlSupplier.SelectedValue));
+            obj.insertPurchaseHead(txtDate.Text, Convert.ToInt32(txtInvoice.Text), txtGrandTotal.Text, Convert.ToInt32(ddlSupplier.SelectedValue));
+            //    
+            //    Session["phid"] = dt1.Rows[0]["headID"];
+
+            //DataTable dt2 = Session["purchase"] as DataTable;
+            //foreach (DataRow dr in dt2.Rows)
+            //{
+            //    /* insert values to purchase details table*/
+            //    obj.insertPurchaseDetails(Convert.ToInt32(Session["phid"]), Convert.ToInt32(dr["Item"]), Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Rate"]));
+            //    DataTable dt = obj.selectItemFromStock();
+            //    if (dt.Rows.Count > 0)
+            //    {
+            //        lblAvailQnty.Text = dt2.Rows[0]["stock_quantity"].ToString();
+            //        lblGivenQnty.Text = Convert.ToInt32(dr["Quantity"]).ToString();
+            //        int availQnty = Convert.ToInt32(lblAvailQnty.Text);
+            //        int givenQnty = Convert.ToInt32(lblGivenQnty.Text);
+            //        int newQnty = Convert.ToInt32(availQnty + givenQnty);
+            //        obj.stockUpdate(newQnty, Convert.ToInt32(dr["Item"]));
+
+            //    }
+            //    else
+            //    {
+            //        /*insert stock table*/
+            //        obj.insertStock(Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Item"]));
+
+            //    }
+            //}
 
             DataTable dt1 = obj.selectphID();
             Session["phid"] = dt1.Rows[0]["headID"];
-
-            DataTable dt2 = Session["purchase"] as DataTable;
-            foreach (DataRow dr in dt2.Rows)
+            DataTable dt = (DataTable)Session["purchase"];
+            foreach (DataRow dr in dt.Rows)
             {
-                /* insert values to purchase details table*/
-                obj.insertPurchaseDetails(Convert.ToInt32( Session["phid"]), Convert.ToInt32(dr["Item"]), Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Rate"]));
-                DataTable dt = obj.selectItemFromStock();
-                if(dt.Rows.Count > 0)
-                {
-                    lblAvailQnty.Text = dt2.Rows[0]["stock_quantity"].ToString();
-                    lblGivenQnty.Text = Convert.ToInt32(dr["Quantity"]).ToString();
-                    int availQnty = Convert.ToInt32(lblAvailQnty.Text);
-                    int givenQnty = Convert.ToInt32(lblGivenQnty.Text);
-                    int newQnty = Convert.ToInt32(availQnty + givenQnty);
-                    obj.stockUpdate(newQnty, Convert.ToInt32(dr["Item"]));
+                obj.insertPurchaseDetails(Convert.ToInt32(Session["phid"]), Convert.ToInt32(dr["Item"]), Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Rate"]));
 
+                DataTable dt2 = obj.selectItemFromStock();
+                if (dt2.Rows.Count > 0)
+                {
+                    int availQnty = Convert.ToInt32(dt2.Rows[0]["Quantity"]);
+                    int newQnty = Convert.ToInt32(dr["quantity"]);
+                    int upQnty = Convert.ToInt32(availQnty + newQnty);
+
+                    obj.stockUpdate(upQnty, Convert.ToInt32(dr["Item"]));
                 }
                 else
-                { 
+                {
                     /*insert stock table*/
                     obj.insertStock(Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Item"]));
 
                 }
             }
-           
-           
-
-
         }
-        
-      
-
-            /*clear all valuesin temporary grid and grandtotal*/
-            protected void btnClear_Click(object sender, EventArgs e)
-        {
-            AddDefaultFirstRecord();
-            txtGrandTotal.Text = "";
-        }
-
-        /* adding new record to the temporary grid*/
-        public void AddNewRecordToGrid()
-        {
-
-            //check viewstate is not null
-            if (ViewState["purchase"] != null)
-            {
-                //get datatable from viewstate
-                DataTable dtCurrentTable = (DataTable)ViewState["purchase"];
-                DataRow drCurrentRow = null;
-                if (dtCurrentTable.Rows.Count > 0)
-                {
-                    for (int i = 1; i <= dtCurrentTable.Rows.Count; i++)
-                    {
-
-                        //addeach row into datatable
-                        drCurrentRow = dtCurrentTable.NewRow();
-                        drCurrentRow["Item"] = ddlItem.SelectedValue;
-                        drCurrentRow["Quantity"] = txtQuantity.Text;
-                        drCurrentRow["Rate"] = txtRate.Text;
-                        drCurrentRow["Total"] = total.ToString();
-                        //Prints grandtotal in the textbox
-                        txtGrandTotal.Text = temp.ToString();
-
-
-
-
-
-                    }
-                    //remove initial blank row
-                    if (dtCurrentTable.Rows[0][0].ToString() == "")
-                    {
-                        dtCurrentTable.Rows[0].Delete();
-                        dtCurrentTable.AcceptChanges();
-                    }
-                    //add created rows into datatable 
-                    dtCurrentTable.Rows.Add(drCurrentRow);
-                    //save datatable into viewstate  after creating each row
-                    ViewState["purchase"] = dtCurrentTable;
-                    Session["purchase"] = dtCurrentTable;
-                    //bind gridview with latest row
-                    grdPurchase.DataSource = dtCurrentTable;
-                    grdPurchase.DataBind();
-                }
-            }
-        }
-       
-       
     }
 }
+
+
+        //protected void grdPurchase_RowCommand(object sender, GridViewCommandEventArgs e)
+        //{
+        //    if (e.CommandName == "del")
+        //    {
+        //        DataTable dt = (DataTable)Session["purchase"];
+        //        int id = (int)Session["cart_id"];
+
+        //        foreach (DataRow rw in dt.Rows)
+        //        {
+        //            if (rw["id"].ToString() == e.CommandArgument.ToString())
+        //            {
+        //                rw.Delete();
+        //                id--;
+        //            }
+        //        }
+        //        dt.AcceptChanges();
+        //        Session["cart"] = dt;
+        //        Session["cart_id"] = id;
+        //        fillcart();
+        //    }
+        //}
+
+
+
+
+        //public void fillDatatable()
+        //{
+        //    DataTable dt = new DataTable();
+        //    dt.Columns.Add(new DataColumn("Items"));
+        //    dt.Columns.Add(new DataColumn("Quantity"));
+        //    dt.Columns.Add(new DataColumn("Rate"));
+        //    dt.Columns.Add(new DataColumn("Total"));
+        //    dt.AcceptChanges();
+        //    Session["purchase"] = dt;
+        //}
+        //protected void btnAdd_Click(object sender, EventArgs e)
+        //{
+
+        //DataTable dt = new DataTable();
+        //dt = (DataTable)Session["purchase"];
+        //DataRow dr = dt.NewRow();
+        //dr["Items"] = ddlItem.SelectedValue;
+        //dr["Quantity"] = Convert.ToInt32(txtQuantity.Text);
+        //dr["Rate"] = Convert.ToInt32(txtRate.Text);
+        //dr["Total"] = Convert.ToInt32(txtQuantity.Text) * Convert.ToInt32(txtRate.Text);
+        //dt.Rows.Add(dr);
+        //dt.AcceptChanges();
+        //Session["purchase"] = dt;
+        //fillGrid();
+        //}
+        //public void createnewrow()
+        //{
+        //    DataTable dt = new DataTable();
+        //    if (ViewState["purchase"] != null)
+        //    {
+        //        dt = (DataTable)ViewState["purchase"];
+        //        DataRow dr = null;
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            dr = dt.NewRow();
+        //            dr["Item"] = ddlItem.SelectedItem.Text;
+        //            dr["Quantity"] = txtQuantity.Text;
+        //            dr["Rate"] = txtRate.Text;
+        //            dr["Total"] = Convert.ToInt32( txtQuantity.Text) *Convert.ToInt32( txtRate.Text);
+
+        //            dt.Rows.Add(dr);
+        //            ViewState["purchase"] = dt;
+        //            grdPurchase.DataSource = ViewState["purchase"];
+        //            grdPurchase.DataBind();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        dt.Columns.Add("Item", typeof(int));
+        //        dt.Columns.Add(new DataColumn("Quantity", typeof(int)));
+        //        dt.Columns.Add("Rate", typeof(int));
+        //        dt.Columns.Add("Total", typeof(int));
+        //        DataRow dr1 = dt.NewRow();
+        //        dr1 = dt.NewRow(); 
+        //        dr1["Item"] = ddlItem.SelectedItem.Text;
+        //        dr1["Quantity"] = txtQuantity.Text;
+        //        dr1["Rate"] = txtRate.Text;
+        //        dr1["Total"] = Convert.ToInt32(txtQuantity.Text) * Convert.ToInt32(txtRate.Text);
+        //        dt.Rows.Add(dr1);
+        //        ViewState["purchase"] = dt;
+        //        grdPurchase.DataSource = ViewState["purchase"];
+        //        grdPurchase.DataBind();
+        //    }
+        //}
+
+
+
+    
