@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-     <asp:MultiView ID="MultiView1" runat="server" ActiveViewIndex="0">
+    <asp:MultiView ID="MultiView1" runat="server" ActiveViewIndex="0">
                     <asp:View ID="View1" runat="server">
                      From Date: <asp:TextBox ID="txtFromDate" runat="server" TextMode="Date"></asp:TextBox><br />
             To Date:<asp:TextBox ID="txtToDate" runat="server" TextMode="Date"></asp:TextBox><br />
@@ -37,6 +37,4 @@
                     
                 </asp:MultiView>
           
-            
-            
 </asp:Content>

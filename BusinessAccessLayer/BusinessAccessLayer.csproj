@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="bloDistrict.cs" />
     <Compile Include="bloPlace.cs" />
+    <Compile Include="bloPurchaseReport.cs" />
     <Compile Include="bloPurchaseWholesale.cs" />
     <Compile Include="bloSales.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

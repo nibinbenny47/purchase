@@ -71,6 +71,7 @@
     <Content Include="Admin\Place.aspx" />
     <Content Include="Admin\PurchaseWholesale.aspx" />
     <Content Include="Admin\Sales.aspx" />
+    <Content Include="Admin\PurchaseReport.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +109,13 @@
     </Compile>
     <Compile Include="Admin\Sales.aspx.designer.cs">
       <DependentUpon>Sales.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\PurchaseReport.aspx.cs">
+      <DependentUpon>PurchaseReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\PurchaseReport.aspx.designer.cs">
+      <DependentUpon>PurchaseReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
