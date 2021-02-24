@@ -19,8 +19,38 @@
             Rate:
             <asp:TextBox ID="txtRate" runat="server"></asp:TextBox><br />
             <asp:Button  runat="server" ID="btnAdd" Text="Add" OnClick="btnAdd_Click" />
-            <asp:GridView runat="server" ID="grdSales" ShowFooter="true" >
-            
+            <asp:GridView runat="server" ID="grdSales" ShowFooter="true" AutoGenerateColumns="false" OnRowDataBound="grdSales_RowDataBound" >
+              <Columns>
+                   
+
+                        <asp:TemplateField HeaderText="Item" >
+                            <ItemTemplate>
+                                <asp:Label ID="lblItem" runat="server" Text='<%#Eval("Item") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                     <asp:TemplateField HeaderText="Quantity">
+                            <ItemTemplate>
+                                <asp:Label ID="lblQuantity" runat="server" Text='<%#Eval("Quantity") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                     <asp:TemplateField HeaderText="Rate">
+                            <ItemTemplate>
+                                <asp:Label ID="lblRate" runat="server" Text='<%#Eval("Rate") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Total">
+                            <ItemTemplate>
+                                <asp:Label ID="lblTotal" runat="server" Text='<%#Eval("Total") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                     <%--<asp:TemplateField HeaderText="Delete">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="lkbtnDelete" runat="server" CommandArgument='<%# Eval("d") %>' CommandName="del">Delete</asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>--%>
+                
+                </Columns>
+               
             </asp:GridView><br />
             GrandTotal:<asp:TextBox ID="txtGrandTotal" runat="server"></asp:TextBox><br />
             <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />

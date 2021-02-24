@@ -47,7 +47,7 @@ namespace DataAccessLayer
             return dt;
         }
         /* insert values to purchase head table*/
-        public void insertPurchaseHead(string ph_date, int ph_invoice, string  ph_grandtotal, int supplier_id)
+        public void insertPurchaseHead(string ph_date, int ph_invoice, int  ph_grandtotal, int supplier_id)
         {
             connection();
 
@@ -89,13 +89,14 @@ namespace DataAccessLayer
 
         }
         /*select item id from the stock table*/
-        public DataTable selectItemFromStock()
+        public DataTable selectItemFromStock(int item_id)
         {
             connection();
 
             cmd = new SqlCommand("sp_PurchaseWholesale", con);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@status", 6);
+            cmd.Parameters.AddWithValue("@item_id", item_id);
             SqlDataAdapter adp = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             adp.Fill(dt);

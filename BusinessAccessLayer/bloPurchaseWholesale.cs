@@ -23,7 +23,7 @@ namespace BusinessAccessLayer
             return obj.fillItem(supplier_id);
         }
         /* insert values to purchase head table*/
-        public void insertPurchaseHead(string ph_date, int ph_invoice, string  ph_grandtotal, int supplier_id)
+        public void insertPurchaseHead(string ph_date, int ph_invoice, int  ph_grandtotal, int supplier_id)
         {
             obj.insertPurchaseHead(ph_date, ph_invoice, ph_grandtotal, supplier_id);
         }
@@ -38,9 +38,9 @@ namespace BusinessAccessLayer
             return obj.selectphID();
         }
         /*select item id from the stock table*/
-        public DataTable selectItemFromStock()
+        public DataTable selectItemFromStock(int item_id)
         {
-            return obj.selectItemFromStock();
+            return obj.selectItemFromStock(item_id);
         }
         /*update stock table*/
         public void stockUpdate(int newQnty, int item_id)

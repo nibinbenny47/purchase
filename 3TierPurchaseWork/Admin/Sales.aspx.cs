@@ -23,6 +23,8 @@ namespace _3TierPurchaseWork.Admin
 
                 DataColumn clm = new DataColumn("Item", typeof(string));
                 dtpurchase.Columns.Add(clm);
+                clm = new DataColumn("item_id", typeof(Int32));
+                dtpurchase.Columns.Add(clm);
                 clm = new DataColumn("Quantity", typeof(string));
                 dtpurchase.Columns.Add(clm);
                 clm = new DataColumn("Rate", typeof(Int32));
@@ -56,12 +58,12 @@ namespace _3TierPurchaseWork.Admin
             obj.insertSales(txtDate.Text,Convert.ToInt32(txtInvoice.Text),Convert.ToInt32(txtGrandTotal.Text));
             /*select sales id to insert into salesDetails table*/
             DataTable dt = obj.selectsalesID();
-            Session["sid"] = dt.Rows[0]["sales_id"];
+            int sid  = Convert.ToInt32(dt.Rows[0]["headId"]);
             DataTable dt1 = Session["purchase"] as DataTable;
             foreach (DataRow dr in dt1.Rows)
             {
                 //checking if the item is available in the stock and if so checking if the availble quantity greater than the user requested quantity
-                DataTable dt2 = obj.selectStock(Convert.ToInt32(dr["Item"]));
+                DataTable dt2 = obj.selectStock(Convert.ToInt32(dr["item_id"]));
                 lblsaleQnty.Text = Convert.ToInt32(dr["Quantity"]).ToString();
                 int salesqnty = Convert.ToInt32(lblsaleQnty.Text);
                 if (dt2.Rows.Count > 0)
@@ -72,9 +74,9 @@ namespace _3TierPurchaseWork.Admin
                     if (salesqnty <= qnty)
                     {
                         /*insert salesDetais table*/
-                        obj.insertSalesDetails(Convert.ToInt32(Session["sid"]), Convert.ToInt32(dr["Item"]), Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Rate"]));
+                        obj.insertSalesDetails(sid, Convert.ToInt32(dr["item_id"]), Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Rate"]));
                         int availableQnty = Convert.ToInt32(qnty - salesqnty);
-                        obj.stockUpdate(availableQnty, Convert.ToInt32(dr["Item"]));
+                        obj.stockUpdate(availableQnty, Convert.ToInt32(dr["item_id"]));
                     }
                     else
                     {
@@ -88,6 +90,19 @@ namespace _3TierPurchaseWork.Admin
             }
         }
 
+        protected void grdSales_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Label lb = (Label)e.Row.FindControl("lblTotal");
+                total += Convert.ToInt32(lb.Text);
+                txtGrandTotal.Text = total.ToString();
+                //txtGrandTotal.Text = "Total Amount Rs:" + total.ToString() + "/-";
+                Session["amount"] = total;
+            }
+        }
+
+
         protected void btnAdd_Click(object sender, EventArgs e)
         {
             DataTable dt = new DataTable();
@@ -95,14 +110,17 @@ namespace _3TierPurchaseWork.Admin
             DataRow row = dt.NewRow();
 
             row["Item"] = ddlItem.SelectedItem.Text;
+            row["item_id"] = ddlItem.SelectedValue;
             row["Quantity"] = txtQuantity.Text;
             row["Rate"] = txtRate.Text;
-            qnty = Convert.ToInt32(txtQuantity.Text);
-            rate = Convert.ToInt32(txtRate.Text);
-            total = qnty * rate;
-            row["Total"] = total.ToString();
-            temp = temp + total;
-            txtGrandTotal.Text = temp.ToString();
+            row["Total"] = Convert.ToInt32(txtQuantity.Text) * Convert.ToInt32(txtRate.Text);
+
+            //qnty = Convert.ToInt32(txtQuantity.Text);
+            //rate = Convert.ToInt32(txtRate.Text);
+            //total = qnty * rate;
+            //row["Total"] = total.ToString();
+            //temp = temp + total;
+            //txtGrandTotal.Text = temp.ToString();
             //row["Total"] = Convert.ToInt32(txtQuantity.Text) * Convert.ToInt32(txtRate.Text);
 
             dt.Rows.Add(row);

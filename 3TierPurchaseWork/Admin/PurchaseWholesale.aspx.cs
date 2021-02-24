@@ -13,8 +13,9 @@ namespace _3TierPurchaseWork.Admin
     public partial class WebForm3 : System.Web.UI.Page
     {
         public bloPurchaseWholesale obj = new bloPurchaseWholesale();
-        public static int qnty, rate, total;
-        public static int temp = 0;
+        double total;
+       // public static int qnty, rate, total;
+       // public static int temp = 0;
         //public static int qnty, rate, total;
         //public static int temp = 0;
         protected void Page_Load(object sender, EventArgs e)
@@ -26,11 +27,13 @@ namespace _3TierPurchaseWork.Admin
 
                 DataColumn clm = new DataColumn("Item", typeof(string));
                 dtpurchase.Columns.Add(clm);
-                clm = new DataColumn("Quantity", typeof(string));
+                clm = new DataColumn("item_id", typeof(Int32));
+                dtpurchase.Columns.Add(clm);
+                clm = new DataColumn("Quantity", typeof(Int32));
                 dtpurchase.Columns.Add(clm);
                 clm = new DataColumn("Rate", typeof(Int32));
                 dtpurchase.Columns.Add(clm);
-                clm = new DataColumn("Total", typeof(string));
+                clm = new DataColumn("Total", typeof(Int32));
 
                 dtpurchase.Columns.Add(clm);
                 dtpurchase.AcceptChanges();
@@ -82,15 +85,16 @@ namespace _3TierPurchaseWork.Admin
             DataRow row = dt.NewRow();
 
             row["Item"] = ddlItem.SelectedItem.Text;
-            row["Quantity"] = txtQuantity.Text;
-            row["Rate"] = txtRate.Text;
-            qnty = Convert.ToInt32(txtQuantity.Text);
-            rate = Convert.ToInt32(txtRate.Text);
-            total = qnty * rate;
-            row["Total"] = total.ToString();
-            temp = temp + total;
-            txtGrandTotal.Text = temp.ToString();
-            //row["Total"] = Convert.ToInt32(txtQuantity.Text) * Convert.ToInt32(txtRate.Text);
+            row["item_id"] = ddlItem.SelectedValue;
+            row["Quantity"] = Convert.ToInt32(txtQuantity.Text);
+            row["Rate"] = Convert.ToInt32(txtRate.Text);
+            //qnty = Convert.ToInt32(txtQuantity.Text);
+            //rate = Convert.ToInt32(txtRate.Text);
+            //total = qnty * rate;
+            //row["Total"] = total;
+            ////temp = temp + total;
+            ////txtGrandTotal.Text = temp.ToString();
+            row["Total"] = Convert.ToInt32(txtQuantity.Text) * Convert.ToInt32(txtRate.Text);
 
             dt.Rows.Add(row);
             dt.AcceptChanges();
@@ -105,47 +109,50 @@ namespace _3TierPurchaseWork.Admin
             grdPurchase.DataBind();
         }
 
-        //protected void grdPurchase_RowDataBound(object sender, GridViewRowEventArgs e)
-        //{
-        //    if (e.Row.RowType == DataControlRowType.DataRow)
-        //    {
-        //        Label lb = (Label)e.Row.FindControl("lblTotal");
-        //        total += Convert.ToInt32(lb.Text);
-        //        txtGrandTotal.Text = total.ToString();
-        //        //txtGrandTotal.Text = "Total Amount Rs:" + total.ToString() + "/-";
-        //        Session["amount"] = total;
-        //    }
-        //}
+        protected void grdPurchase_RowDataBound1(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Label lb = (Label)e.Row.FindControl("lblTotal");
+                total += Convert.ToInt32(lb.Text);
+                txtGrandTotal.Text = total.ToString();
+                //txtGrandTotal.Text = "Total Amount Rs:" + total.ToString() + "/-";
+                Session["amount"] = total;
+            }
+        }
+
+        
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
 
             /*insert into purchasehead table*/
-            obj.insertPurchaseHead(txtDate.Text, Convert.ToInt32(txtInvoice.Text), txtGrandTotal.Text, Convert.ToInt32(ddlSupplier.SelectedValue));
+            obj.insertPurchaseHead(txtDate.Text, Convert.ToInt32(txtInvoice.Text), Convert.ToInt32(txtGrandTotal.Text), Convert.ToInt32(ddlSupplier.SelectedValue));
           
             DataTable dt1 = obj.selectphID();
-            Session["phid"] = dt1.Rows[0]["headID"];
+           int  phid = Convert.ToInt32(dt1.Rows[0]["headID"]);
             DataTable dt2 = Session["purchase"] as DataTable;
             foreach (DataRow dr in dt2.Rows)
             {
-                obj.insertPurchaseDetails(Convert.ToInt32(Session["phid"]), Convert.ToInt32(dr["Item"]), Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Rate"]));
+                obj.insertPurchaseDetails(phid, Convert.ToInt32(dr["item_id"]), Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Rate"]));
 
-                DataTable dt3 = obj.selectItemFromStock();
+                DataTable dt3 = obj.selectItemFromStock(Convert.ToInt32(dr["item_id"]));
                 if (dt3.Rows.Count > 0)
                 {
-                    int availQnty = Convert.ToInt32(dt3.Rows[0]["Quantity"]);
-                    int newQnty = Convert.ToInt32(dr["quantity"]);
+                    int availQnty = Convert.ToInt32(dt3.Rows[0]["stock_quantity"]);
+                    int newQnty = Convert.ToInt32(dr["Quantity"]);
                     int upQnty = Convert.ToInt32(availQnty + newQnty);
 
-                    obj.stockUpdate(upQnty, Convert.ToInt32(dr["Item"]));
+                    obj.stockUpdate(upQnty, Convert.ToInt32(dr["item_id"]));
                 }
                 else
                 {
                     /*insert stock table*/
-                    obj.insertStock(Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["Item"]));
+                    obj.insertStock(Convert.ToInt32(dr["Quantity"]), Convert.ToInt32(dr["item_id"]));
 
                 }
             }
+            Session["purchase"] = null;
         }
     }
 }
