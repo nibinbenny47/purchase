@@ -78,15 +78,6 @@ namespace _3TierPurchaseWork.Admin
         protected global::System.Web.UI.WebControls.Button btnAdd;
 
         /// <summary>
-        /// grdPurchase control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdPurchase;
-
-        /// <summary>
         /// txtGrandTotal control.
         /// </summary>
         /// <remarks>
@@ -121,5 +112,14 @@ namespace _3TierPurchaseWork.Admin
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblGivenQnty;
+
+        /// <summary>
+        /// grdPurchase control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdPurchase;
     }
 }

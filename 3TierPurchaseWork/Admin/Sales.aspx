@@ -2,24 +2,59 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-       Bill NO:
-            <asp:TextBox ID="txtInvoice" runat="server"></asp:TextBox><br />
+    <table>
+        <tr>
+            <td>
+                 Bill NO:
+                </td>
+                <td>
+                    <asp:TextBox ID="txtInvoice" runat="server"></asp:TextBox>
+                </td>
             
-            
-                
-            
-            Date:
-            <asp:TextBox ID="txtDate" runat="server" TextMode="Date"></asp:TextBox><br />
-            Item:
-            <asp:DropDownList ID="ddlItem" runat="server" >
+        </tr>
+        <tr>
+            <td>
+                 Date:
+            </td>
+            <td>
+            <asp:TextBox ID="txtDate" runat="server" TextMode="Date"></asp:TextBox>
 
-            </asp:DropDownList><br />
-            Quantity:
-            <asp:TextBox ID="txtQuantity" runat="server"></asp:TextBox><br />
-            Rate:
-            <asp:TextBox ID="txtRate" runat="server"></asp:TextBox><br />
-            <asp:Button  runat="server" ID="btnAdd" Text="Add" OnClick="btnAdd_Click" />
-            <asp:GridView runat="server" ID="grdSales" ShowFooter="true" AutoGenerateColumns="false" OnRowDataBound="grdSales_RowDataBound" >
+            </td>
+        </tr>
+        <tr>
+            <td>
+                 Item:
+            </td>
+            <td>
+                  <asp:DropDownList ID="ddlItem" runat="server" > </asp:DropDownList>
+            </td>
+            
+        </tr>
+        <tr>
+            <td>
+                Quantity:
+            </td>
+            <td>
+            <asp:TextBox ID="txtQuantity" runat="server"></asp:TextBox>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                 Rate:
+            </td>
+            <td>
+                  <asp:TextBox ID="txtRate" runat="server"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                 <asp:Button  runat="server" ID="btnAdd" Text="Add" OnClick="btnAdd_Click" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:GridView runat="server" ID="grdSales" ShowFooter="true" AutoGenerateColumns="false" OnRowDataBound="grdSales_RowDataBound" >
               <Columns>
                    
 
@@ -51,12 +86,47 @@
                 
                 </Columns>
                
-            </asp:GridView><br />
+            </asp:GridView>
+            </td>
+        </tr>
+        <tr>
+            <td>
             GrandTotal:<asp:TextBox ID="txtGrandTotal" runat="server"></asp:TextBox><br />
+
+            </td>
+        </tr>
+        <tr>
+            <td>
             <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
-            <asp:Label runat="server" ID="lblQuantity" Visible="false"></asp:Label>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label runat="server" ID="lblQuantity" Visible="false"></asp:Label>
             <asp:Label runat="server" ID="lblsaleQnty" Visible="false"></asp:Label>
+            
+            </td>
+        </tr>
+    </table>
+    </asp:Content>
+    
+         
+            
+            
+                
+            
+           
+           
+          
+
+           
+
+           
+          
+           
+          
             
             
 
-</asp:Content>
+

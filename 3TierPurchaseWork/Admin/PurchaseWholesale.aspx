@@ -1,26 +1,100 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/AdminMaster.Master" AutoEventWireup="true" CodeBehind="PurchaseWholesale.aspx.cs" Inherits="_3TierPurchaseWork.Admin.WebForm3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+        
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-      Invoice:
-            <asp:TextBox ID="txtInvoice" runat="server"></asp:TextBox><br />
-            Supplier:
-            <asp:DropDownList runat="server" ID="ddlSupplier" AutoPostBack="true"  OnSelectedIndexChanged="ddlSupplier_SelectedIndexChanged" >
-                
-            </asp:DropDownList><br />
-            Date:
-            <asp:TextBox ID="txtDate" runat="server" TextMode="Date"></asp:TextBox><br />
-            Item:
-            <asp:DropDownList ID="ddlItem" runat="server" >
-
-            </asp:DropDownList><br />
-            Quantity:
-            <asp:TextBox ID="txtQuantity" runat="server"></asp:TextBox><br />
-            Rate:
-            <asp:TextBox ID="txtRate" runat="server"></asp:TextBox><br />
-            <asp:Button  runat="server" ID="btnAdd" Text="Add" OnClick="btnAdd_Click" />
+    <table>
+        <tr>
+            <td>
+                Invoice:
+                </td>
+            <td>
+                 <asp:TextBox ID="txtInvoice" runat="server"></asp:TextBox><br />
+            </td>
            
-            <asp:GridView runat="server" ID="grdPurchase" AutoGenerateColumns="false" OnRowDataBound="grdPurchase_RowDataBound1">
+            
+            
+        </tr>
+        <tr>
+            <td>
+                 Supplier:
+                </td>
+            <td>
+                  <asp:DropDownList runat="server" ID="ddlSupplier" AutoPostBack="true"  OnSelectedIndexChanged="ddlSupplier_SelectedIndexChanged" >
+                
+            </asp:DropDownList>
+            </td>
+          
+            
+        </tr>
+        <tr>
+            <td>
+                Date:
+                </td>
+            <td>
+                <asp:TextBox ID="txtDate" runat="server" TextMode="Date"></asp:TextBox><br />
+            </td>
+            
+            
+        </tr>
+        <tr>
+            <td>
+                 Item:
+                     </td>
+            <td>
+                 <asp:DropDownList ID="ddlItem" runat="server" >
+
+            </asp:DropDownList>
+       
+            </td>
+           
+        </tr>
+        <tr>
+            <td>
+                 Quantity:
+                 </td>
+            <td>
+            <asp:TextBox ID="txtQuantity" runat="server"></asp:TextBox><br />
+
+            </td>
+           
+        </tr>
+        <tr>
+            <td>
+                  
+           
+            Rate:
+                 </td>
+            <td>
+                 <asp:TextBox ID="txtRate" runat="server"></asp:TextBox><br />
+            </td>
+           
+           
+        </tr>
+        <tr>
+            <td>
+                 <asp:Button  runat="server" ID="btnAdd" Text="Add" OnClick="btnAdd_Click" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                 GrandTotal:<asp:TextBox ID="txtGrandTotal" runat="server"></asp:TextBox><br />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                 <asp:Label ID="lblAvailQnty" runat="server" Visible="false"></asp:Label>
+            <asp:Label ID="lblGivenQnty" runat="server" Visible="false"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                 <asp:GridView runat="server" ID="grdPurchase" AutoGenerateColumns="false" OnRowDataBound="grdPurchase_RowDataBound1">
                 <Columns>
                    
 
@@ -53,9 +127,25 @@
                 </Columns>
                
             
-            </asp:GridView><br />
-            GrandTotal:<asp:TextBox ID="txtGrandTotal" runat="server"></asp:TextBox><br />
-            <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
-         <asp:Label ID="lblAvailQnty" runat="server" Visible="false"></asp:Label>
-            <asp:Label ID="lblGivenQnty" runat="server" Visible="false"></asp:Label>
+            </asp:GridView>
+            </td>
+        </tr>
+      
+       
+     
+    </table>
 </asp:Content>
+      
+           
+            
+         
+           
+           
+          
+           
+            
+        
+           
+           
+           
+
